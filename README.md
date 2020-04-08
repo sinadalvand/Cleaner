@@ -14,8 +14,8 @@ flutter build web
 ```
 
 #### developed by:
-+ Sina Dalvand
-+ Zahra Mansoori
++ [Sina Dalvand](https://github.com/sinadalvand)
++ [Zahra Mansoori](https://github.com/ZahraMansoori)
 
 
 # License
