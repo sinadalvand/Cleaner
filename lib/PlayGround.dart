@@ -51,7 +51,6 @@ class _PlayGroundHolder extends State<PlayGround> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Expanded(
                       child: ScopedModelDescendant<GlobalData>(
                         builder: (context, child, GlobalData model) {
                           return Center(
@@ -72,7 +71,7 @@ class _PlayGroundHolder extends State<PlayGround> {
                           );
                         },
                       ),
-                    )),
+                    ),
               ),
               Positioned(
                 bottom: 0,
