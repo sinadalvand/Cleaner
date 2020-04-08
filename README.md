@@ -5,7 +5,7 @@
 all AI code are in `lib/AI/BroomEngine.dart` , but maybe complicated !! cuse combined by timer and delay for apply animation!
 
 
-[Demo](https://sinadalvand.github.io/cleaner)
+[Demo Live Preview](https://sinadalvand.github.io/cleaner)
 
 
 ## screenshot
