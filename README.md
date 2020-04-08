@@ -4,6 +4,10 @@
 
 all AI code are in `lib/AI/BroomEngine.dart` , but maybe complicated !! cuse combined by timer and delay for apply animation!
 
+
+[Demo](https://sinadalvand.github.io/Cleaner/)
+
+
 ## screenshot
 <img src="https://github.com/sinadalvand/Cleaner/blob/master/art/art.png" width="720"/>
 
@@ -12,6 +16,8 @@ run in terminal
 ```
 flutter build web
 ```
+
+
 
 #### developed by:
 + [Sina Dalvand](https://github.com/sinadalvand)
