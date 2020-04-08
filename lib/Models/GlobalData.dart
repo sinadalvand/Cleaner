@@ -7,6 +7,8 @@ class GlobalData extends Model {
   final tileList = List<TileData>();
   var _cleanerPicked = false;
   var _disable = false;
+  var column = Consts.initTilesCoulmnCount;
+  var row = Consts.initTilesRowCount;
   BroomEngine _engine;
 
   GlobalData() {
@@ -22,16 +24,31 @@ class GlobalData extends Model {
     _engine.stop();
   }
 
-  addTile(TileData tileData) {
-    tileList.add(tileData);
-    notifyListeners();
+  addColumn() {
+    column++;
+    rebuildTiles();
   }
 
-  removeTile() {
-    if (tileList.length > 0) {
-      tileList.removeLast();
-      notifyListeners();
-    }
+  addRow() {
+    row++;
+    rebuildTiles();
+  }
+
+  removeColumn() {
+    column--;
+    rebuildTiles();
+  }
+
+  removeRow() {
+    row--;
+    rebuildTiles();
+  }
+
+  rebuildTiles() {
+    tileList.clear();
+    tileList.addAll(_getTiles());
+    setCleanerPicked(false);
+    notifyListeners();
   }
 
   bool isCleanerPicked() {
@@ -56,7 +73,7 @@ class GlobalData extends Model {
 
   List<TileData> _getTiles() {
     var list = List<TileData>();
-    for (var i = 0; i < Consts.initTilesCount; i++) {
+    for (var i = 0; i < (column * row); i++) {
       list.add(TileData(i));
     }
     return list;

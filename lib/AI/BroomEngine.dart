@@ -11,6 +11,8 @@ class BroomEngine {
   var _forward = false;
   Timer _timer;
   var _curser;
+  var _columnSize;
+  var _stopEngine = false;
 
   Function _stopFunc;
 
@@ -18,8 +20,11 @@ class BroomEngine {
 
   void start(func) {
     // _innerList = List<TileData>.from(global.tileList);
+    print("Engin Start");
     _innerList = global.tileList;
     _stopFunc = func;
+    _columnSize = global.column;
+    _stopEngine = false;
     startTimer();
   }
 
@@ -29,6 +34,8 @@ class BroomEngine {
       _timer = null;
       _forward = false;
       _firstCrossed = false;
+      _stopEngine = true;
+      global.setCleanerPicked(false);
       _stopFunc();
     }
   }
@@ -49,9 +56,6 @@ class BroomEngine {
     // Clean it , then Move ..
     if (_innerList[_curser].getDirty) {
       _innerList[_curser].cleanCommand();
-
-      
-
       _timer.cancel();
       Future.delayed(const Duration(milliseconds: 2000), () {
         justMove();
@@ -63,13 +67,17 @@ class BroomEngine {
   }
 
   void justMove() {
+    var data = _indexRow(_curser);
+    data = data.toInt();
     // forward and back logic
+    print("Curser Link: ${_indexRow(_innerList.length - 1) == 0}");
     if (_curser == 0 ||
         _curser ==
-            (_indexRow(_innerList.length - 1) == 0
+            (data == 0
                 ? _innerList.length - 1
-                : _innerList.length - Consts.rowsItem)) {
+                : _innerList.length - _columnSize)) {
       if (_firstCrossed) {
+        _innerList[_curser].setCleaner(false);
         stop();
         return;
       } else {
@@ -78,15 +86,13 @@ class BroomEngine {
       }
     }
 
-    // movement locgic
-    var data = _indexRow(_curser);
-    data = data.toInt();
+    // movement logic
     print("Data is: ${data}");
     if (data.toInt() == 0) {
       if (_forward) {
-        if ((_curser + 1) % Consts.rowsItem == 0) {
+        if ((_curser + 1) % _columnSize == 0) {
           _innerList[_curser].setCleaner(false);
-          _curser += Consts.rowsItem;
+          _curser += _columnSize;
           _innerList[_curser].setCleaner(true);
         } else {
           _innerList[_curser].setCleaner(false);
@@ -94,9 +100,9 @@ class BroomEngine {
           _innerList[_curser].setCleaner(true);
         }
       } else {
-        if (_curser % Consts.rowsItem == 0) {
+        if (_curser % _columnSize == 0) {
           _innerList[_curser].setCleaner(false);
-          _curser -= Consts.rowsItem;
+          _curser -= _columnSize;
           _innerList[_curser].setCleaner(true);
         } else {
           _innerList[_curser].setCleaner(false);
@@ -106,9 +112,9 @@ class BroomEngine {
       }
     } else {
       if (_forward) {
-        if (_curser % Consts.rowsItem == 0) {
+        if (_curser % _columnSize == 0) {
           _innerList[_curser].setCleaner(false);
-          _curser += Consts.rowsItem;
+          _curser += _columnSize;
           _innerList[_curser].setCleaner(true);
         } else {
           _innerList[_curser].setCleaner(false);
@@ -116,9 +122,9 @@ class BroomEngine {
           _innerList[_curser].setCleaner(true);
         }
       } else {
-        if ((_curser + 1) % Consts.rowsItem == 0) {
+        if ((_curser + 1) % _columnSize == 0) {
           _innerList[_curser].setCleaner(false);
-          _curser -= Consts.rowsItem;
+          _curser -= _columnSize;
           _innerList[_curser].setCleaner(true);
         } else {
           _innerList[_curser].setCleaner(false);
@@ -133,6 +139,7 @@ class BroomEngine {
 
   void setTimer({time = 1}) {
     if (_timer != null && _timer.isActive) _timer.cancel();
+    if (_stopEngine) return;
     _timer = Timer.periodic(Duration(seconds: time), (timer) {
       _doAction();
     });
@@ -152,7 +159,7 @@ class BroomEngine {
   }
 
   _indexRow(index) {
-    var data = ((index) / Consts.rowsItem) % 2;
+    var data = ((index) / _columnSize) % 2;
     return data;
   }
 }

@@ -51,41 +51,52 @@ class _PlayGroundHolder extends State<PlayGround> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 9,
-                          child: ScopedModelDescendant<GlobalData>(
-                            builder: (context, child, GlobalData model) {
-                              print("size: ${model.tileList.length}");
-                              return GridView.count(
+                    child: Expanded(
+                      child: ScopedModelDescendant<GlobalData>(
+                        builder: (context, child, GlobalData model) {
+                          return Center(
+                            child: Container(
+                              width: (model.column * 75).toDouble(),
+                              height: (model.row * 75).toDouble(),
+                              child: GridView.count(
                                 primary: false,
                                 padding: const EdgeInsets.all(3),
                                 crossAxisSpacing: 3,
                                 mainAxisSpacing: 3,
-                                crossAxisCount: 8,
+                                crossAxisCount: model.column,
                                 children: model.tileList
                                     .map((e) => TinyTile(e))
                                     .toList(),
-                              );
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Center(
+                    widthFactor: 10.0,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Center(
                           child: Opacity(
                             opacity: 0.5,
                             child: Text(
-                              "For detele ${Consts.dirtySymbole} or ${Consts.broomSymbole} just click on Tile !",
+                              "For delete ${Consts.dirtySymbole} or ${Consts.broomSymbole} just click on Tile !",
                               style: TextStyle(
                                 color: Consts.primaryColor,
                               ),
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     )),
-              ),
+              )
             ],
           ),
         ),
