@@ -2,20 +2,20 @@
 
 🧹 Smart Vacume/Broom cleaner (goes to clean some 💩)
 
-all Ai code are in `lib/AI/BroomEngine.dart` , but maybe complicated !! cuse combined by timer and delay for apply animation!
+all AI code are in `lib/AI/BroomEngine.dart` , but maybe complicated !! cuse combined by timer and delay for apply animation!
 
-##screenshot
+## screenshot
 <img src="https://github.com/sinadalvand/Cleaner/blob/master/art/art.png" width="720"/>
 
-##export
+## export
 run in terminal
 ```
 flutter build web
 ```
 
-####developed by:
-⋅⋅* Sina Dalvand
-⋅⋅* Zahra Mansoori
+#### developed by:
++ Sina Dalvand
++ Zahra Mansoori
 
 
 # License
