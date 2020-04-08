@@ -67,52 +67,55 @@ class _TileStateHolder extends State<TinyTile>
         _disable = model.isDisable();
         return child;
       },
-      child: GestureDetector(
-        onTap: () {
-          if (_disable) return;
-          setState(() {
-            if (widget.tileData.getCleaner) {
-              globalData.setCleanerPicked(false);
-            }
-            widget.tileData.setDirty(false);
-            widget.tileData.setCleaner(false);
-            // _cleanIt();
-          });
-        },
-        child: Card(
-          elevation: 2,
-          color: Utils.hexToColor("#ff7c7c"),
-          child: DragTarget<Text>(
-            onAccept: (Text value) {
-              setState(() {
-                if (value.data == Consts.dirtySymbole)
-                  widget.tileData.setDirty(true);
-                if (value.data == Consts.broomSymbole)
-                  widget.tileData.setCleaner(true);
-              });
-            },
-            builder: (context, fList, sList) {
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 5),
-                    child: Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: _getShity(),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(_broomDegre / 360),
-                            child: _getCleaner(),
+      child: Container(
+        width: 100,
+        child: GestureDetector(
+          onTap: () {
+            if (_disable) return;
+            setState(() {
+              if (widget.tileData.getCleaner) {
+                globalData.setCleanerPicked(false);
+              }
+              widget.tileData.setDirty(false);
+              widget.tileData.setCleaner(false);
+              // _cleanIt();
+            });
+          },
+          child: Card(
+            elevation: 2,
+            color: Utils.hexToColor("#ff7c7c"),
+            child: DragTarget<Text>(
+              onAccept: (Text value) {
+                setState(() {
+                  if (value.data == Consts.dirtySymbole)
+                    widget.tileData.setDirty(true);
+                  if (value.data == Consts.broomSymbole)
+                    widget.tileData.setCleaner(true);
+                });
+              },
+              builder: (context, fList, sList) {
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                      padding: EdgeInsets.only(bottom: 5),
+                      child: Stack(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: _getShity(),
                           ),
-                        )
-                      ],
-                    )),
-              );
-            },
+                          Align(
+                            alignment: Alignment.center,
+                            child: RotationTransition(
+                              turns: AlwaysStoppedAnimation(_broomDegre / 360),
+                              child: _getCleaner(),
+                            ),
+                          )
+                        ],
+                      )),
+                );
+              },
+            ),
           ),
         ),
       ),

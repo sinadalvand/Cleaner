@@ -44,7 +44,7 @@ class _OptionPanelHolder extends State<OptionPanel> {
         child: FractionallySizedBox(
           heightFactor: 0.8,
           child: Padding(
-            padding: EdgeInsets.only(top: 35),
+            padding: EdgeInsets.only(top: 15),
             child: Container(
               width: 450,
               decoration: BoxDecoration(
@@ -64,27 +64,11 @@ class _OptionPanelHolder extends State<OptionPanel> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: SwitchListTileImproved(
-                      title: const Text(
-                        'Dark',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      value: true,
-                      activeColor: Consts.primaryColor,
-                      onChanged: (bool value) {},
-                      secondary: const Icon(
-                        Icons.lightbulb_outline,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 15),
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "Increase or Decrease Tile Count",
+                          "Increase or Decrease Row Count",
                           style: TextStyle(
                             color: Colors.white54,
                           ),
@@ -94,16 +78,15 @@ class _OptionPanelHolder extends State<OptionPanel> {
                           width: double.infinity,
                           child: DragCounter(
                             max: Consts.maxTiles,
-                            min: 4,
-                            currentValue: Consts.initTilesCount,
+                            min: 2,
+                            currentValue: Consts.initTilesRowCount,
                             increaseCallback: (value) {
-                              globalData.addTile(
-                                  TileData(globalData.tileList.length));
+                              globalData.addRow();
                             },
                             decreaseCallback: (value) {
                               ScopedModel.of<GlobalData>(
                                 context,
-                              ).removeTile();
+                              ).removeRow();
                             },
                           ),
                         ),
@@ -111,7 +94,37 @@ class _OptionPanelHolder extends State<OptionPanel> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 15),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Increase or Decrease Column Count",
+                          style: TextStyle(
+                            color: Colors.white54,
+                          ),
+                        ),
+                        Container(
+                          height: 90,
+                          width: double.infinity,
+                          child: DragCounter(
+                            max: Consts.maxTiles,
+                            min: 2,
+                            currentValue: Consts.initTilesCoulmnCount,
+                            increaseCallback: (value) {
+                              globalData.addColumn();
+                            },
+                            decreaseCallback: (value) {
+                              ScopedModel.of<GlobalData>(
+                                context,
+                              ).removeColumn();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 15),
                       child: Column(
                         children: <Widget>[
                           Text(
@@ -132,8 +145,7 @@ class _OptionPanelHolder extends State<OptionPanel> {
                                   Expanded(
                                     flex: 1,
                                     child: Draggable<Text>(
-                                      maxSimultaneousDrags:
-                                          _cleanerUsed || _disable ? 0 : null,
+                                      maxSimultaneousDrags: _cleanerUsed || _disable ? 0 : null,
                                       onDragCompleted: () {
                                         setState(() {
                                           // _cleanerUsed = true;
@@ -231,7 +243,7 @@ class _OptionPanelHolder extends State<OptionPanel> {
                         ],
                       )),
                   Padding(
-                    padding: EdgeInsets.only(top: 50),
+                    padding: EdgeInsets.only(top: 15),
                     child: LayoutBuilder(builder: (context, constraint) {
                       return ArgonButton(
                         height: 50,
@@ -254,12 +266,14 @@ class _OptionPanelHolder extends State<OptionPanel> {
                         ),
                         onTap: (startLoading, stopLoading, btnState) {
                           if (btnState == ButtonState.Idle) {
-                            globalData.setDisable(true);
-                            startLoading();
-                            globalData.startEngine(() {
-                              stopLoading();
-                              globalData.setDisable(false);
-                            });
+                            if (globalData.isCleanerPicked()) {
+                              globalData.setDisable(true);
+                              startLoading();
+                              globalData.startEngine(() {
+                                stopLoading();
+                                globalData.setDisable(false);
+                              });
+                            }
                           } else {
                             globalData.setDisable(false);
                             stopLoading();
